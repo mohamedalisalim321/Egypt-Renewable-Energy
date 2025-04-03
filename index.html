@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egypt Renewable Energy Hub</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary: #00695C;
+            --secondary: #26A69A;
+            --accent: #80CBC4;
+            --dark: #263238;
+            --light: #ECEFF1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url("Renewable.jpg");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        section {
+            padding: 60px 20px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--primary);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 20px;
+        }
+
+        .project-info h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .project-stats {
+            margin-top: 15px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .project-stats p {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #energy-map {
+            height: 500px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+
+        button[type="submit"] {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background: var(--secondary);
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            #energy-map {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="hero-content">
+            <h1>Egypt's Clean Energy Transition</h1>
+            <p>Pioneering Sustainable Energy Solutions for Africa</p>
+            <a href="#projects" class="cta-button">Explore Initiatives</a>
+        </div>
+    </header>
+
+    <section id="projects">
+        <h2>Featured Renewable Energy Projects</h2>
+        <div class="projects-grid" id="projects-container">
+            <!-- Projects will be inserted by JavaScript -->
+        </div>
+    </section>
+
+    <section class="map-section">
+        <h2>Project Locations</h2>
+        <div id="energy-map"></div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form class="contact-form" id="energy-contact-form" action="https://formspree.io/f/myyqzzqj" method="POST">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Egypt Renewable Energy Initiative</p>
+        <p>Contact: info@egyptrenewable.gov.eg</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Project Data with working image URLs
+        const projects = [
+            {
+                name: "Benban Solar Park",
+                type: "solar",
+                capacity: "1.8 GW",
+                location: "Aswan, Egypt",
+                co2_reduction: "2 million tons/year",
+                image: "Beban.jpg",
+                coords: [24.0889, 32.8997],
+                description: "World's largest solar installation spanning 37 km² with over 7.2 million photovoltaic panels"
+            },
+            {
+                name: "Gulf of Suez Wind Farm",
+                type: "wind",
+                capacity: "2.5 GW",
+                location: "Red Sea Governorate",
+                co2_reduction: "1.5 million tons/year",
+                image: "Suez.jpg",
+                coords: [29.9668, 32.5498],
+                description: "Africa's largest wind farm with 300+ turbines harnessing Red Sea winds"
+            },
+            {
+                name: "Ain Sokhna Green Hydrogen",
+                type: "hydrogen",
+                capacity: "100,000 tons/year",
+                location: "Suez Governorate",
+                co2_reduction: "500,000 tons/year",
+                image: "Ain.jpg",
+                coords: [29.6587, 32.3435],
+                description: "First integrated green hydrogen plant in MENA region powered by renewable energy"
+            }
+        ];
+
+        // Initialize Map
+        const map = L.map('energy-map').setView([26.8206, 30.8025], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add markers to map
+        projects.forEach(project => {
+            const marker = L.marker(project.coords).addTo(map);
+            marker.bindPopup(`
+                <b>${project.name}</b><br>
+                <img src="${project.image}" style="width:100%;height:120px;object-fit:cover;margin:5px 0;"><br>
+                ${project.description}<br><br>
+                <b>Capacity:</b> ${project.capacity}<br>
+                <b>Location:</b> ${project.location}
+            `);
+        });
+
+        // Render projects
+        const projectsContainer = document.getElementById('projects-container');
+        projectsContainer.innerHTML = projects.map(project => `
+            <div class="project-card">
+                <img src="${project.image}" alt="${project.name}" class="project-img">
+                <div class="project-info">
+                    <h3>${project.name}</h3>
+                    <p>${project.description}</p>
+                    <div class="project-stats">
+                        <p>📍 ${project.location}</p>
+                        <p>⚡ ${project.capacity}</p>
+                        <p>🌱 ${project.co2_reduction} CO₂ reduction</p>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        // Form submission handler
+        const form = document.getElementById('energy-contact-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    alert('Thank you for your message! We will contact you soon.');
+                    form.reset();
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                alert('There was an error sending your message. Please try again later.');
+                console.error('Form submission error:', error);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+
+</html>
